@@ -11,7 +11,7 @@ import html2canvas from "html2canvas";
 import "./InterviewPrepPage.css"
 import botImage from '../../images/dashboard/mobilebanners/Bot.png';
 import toggleimg from "../../images/icons/toggle.svg";
-
+import analytics from "../../utils/analytics";
 function InterviewPrepPage() {
   const { user } = useUserContext();
   const [messages, setMessages] = useState([]);
@@ -40,7 +40,7 @@ function InterviewPrepPage() {
   const [isChatCleared, setIsChatCleared] = useState(false);
   const [showSidebar, setShowSidebar] = useState(false);
   const [menuPosition, setMenuPosition] = useState({ top: 0, left: 0 });
-
+  const currentUser = JSON.parse(localStorage.getItem("user"));
   const toggleSidebar = () => {
     setShowSidebar(prev => !prev);
   };
@@ -1017,7 +1017,7 @@ function InterviewPrepPage() {
                   />
 
                   <span
-                    onClick={() => (sendMessage(), setInput(""))}
+                    onClick={() => {analytics.track("ASK NEWTON", currentUser?.id);sendMessage(); setInput("");}}
                     aria-label="Send message"
                     style={{
                       cursor: input.trim() ? "pointer" : "default",
