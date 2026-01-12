@@ -6,7 +6,7 @@ import "./ApplicantBlog.css";
 import ExploreButton from "../../images/icons/ExploreButton.svg";
 import noblogsfound from "../../images/empty-state-images/no-blogs-found.png";
 import nosearchresults from "../../images/empty-state-images/no-search-results.png";
-
+import analytics from "../../utils/analytics";
 export default function ApplicantBlogs() {
   const [blogs, setBlogs] = useState([]);
   const [query, setQuery] = useState("");
@@ -22,6 +22,7 @@ export default function ApplicantBlogs() {
   const handleLoadMore = () => {
     setPage((prev) => prev + 1);
   };
+  const currentUser = JSON.parse(localStorage.getItem("user"));
 
   useEffect(() => {
     let ignore = false;
@@ -321,6 +322,7 @@ export default function ApplicantBlogs() {
                           title="Read More"
                           onClick={(e) => {
                             e.stopPropagation();
+                            analytics.track("BLOGS", currentUser?.id);
                             openModal(b);
                           }}
                           dangerouslySetInnerHTML={{
